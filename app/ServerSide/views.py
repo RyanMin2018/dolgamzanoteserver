@@ -2,6 +2,8 @@ from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
+import requests
+import json
 from .models import AlarmMessageKey
 
 def Splash(request):
@@ -62,3 +64,31 @@ def Holiday(request):
     strFileName = 'app/ServerSide/Holiday' + lang + '.txt'
     return render(request, strFileName,)
 
+
+def WriteFCMMessage(request):
+    list = AlarmMessageKey.objects.order_by('-dt')
+    return render(request, 'app/ServerSide/WriteFCMMessage.htm', {'list':list})
+
+def SendFCMMessage(request):
+    url = 'https://fcm.googleapis.com/fcm/send'
+    headers = {
+        'Authorization':'key=AAAA_65J53k:APA91bE3av6Z6L36uawZ6xhAcmpmMs75aryUXaUar14SSHhWwvmrlHmfWmrwHPvT7XkcNFVEhEM5rwhHFKZnOSQvVIkDolmjKTlHLISueW5Kd5q8K6o0yMzdCaQkkk4nioiHBXZDelTrUguN7aUf1assiffAaXWc2w',
+        'Content-Type':'application/json; UTF-8',
+    }
+    to    = request.POST.get('to')
+    title = request.POST.get('title')
+    msg   = request.POST.get('msg')
+    link  = request.POST.get('link')
+    img   = request.POST.get('img')
+
+    content = {
+        'to':to,
+        'data':{
+            'title':title,
+            'message':msg,
+            'linkurl':link,
+            'imgurl':img
+        }
+    }
+    res = requests.post(url, data=json.dumps(content), headers=headers)
+    return HttpResponse(res.text)

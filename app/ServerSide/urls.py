@@ -7,4 +7,6 @@ urlpatterns = [
     url(r'^Version/$', views.Version, name='Version'),
     url(r'^SaveFCMKey/$', views.SaveFCMKey, name='SaveFCMKey'),
     url(r'^Holiday/$', views.Holiday, name='Holiday'),
+    url(r'^WriteFCMMessage/$', views.WriteFCMMessage, name='WriteFCMMessage'),
+    url(r'^SendFCMMessage/$', views.SendFCMMessage, name='SendFCMMessage'),
 ]

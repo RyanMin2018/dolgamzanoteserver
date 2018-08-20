@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, target-densitydpi=medium-dpi">
+<meta name="format-detection" content="telephone=no"><meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>FCM 전송</title>
+<link rel="stylesheet" href="http://n.mp1.co.kr/css/style.css" type="text/css" media="all">
+</head>
+<body>
+<div id="section_pop_menu">
+    <ul>
+        <li onclick="location.href='/';"><a href="/" title="홈으로">Home</a></li>
+    </ul>
+</div>
+<div id="container">
+    <div id="header">
+        <div id="section_logo">
+            <img id="menu" src="http://n.mp1.co.kr/images/btnBurger.png" alt="메뉴열기" title="메뉴열기">
+            <span id="domain">VALHALLA</span>
+        </div>
+        <div id="section_logon_status">
+        </div>
+    </div>
+    <div id="section_top_navigation"></div>
+    <div id="alert"></div>
+    <div id="article">
+        <div id="section_left"></div>
+        <div id="section_location">
+            <a href='/'>HOME</a> / <a href='/app/ServerSide/WriteFCMMessage/'>FCM 전송</a>
+        </div>
+        <div id="section_body">
+            <h1>FCM 전송</h1>
+
+                <form action='/app/ServerSide/SendFCMMessage/' method='post'>
+                {% csrf_token %}
+                <div>
+                    <label for='to'>대상</label>
+                    <select name='to'>
+                    {% for l in list %}
+                        <option value='{{ l.fcmkey }}'>{{ l.userid }}</option>
+                    {% endfor %}
+                    </select>
+                </div>
+                <div><label for='title'>제목</label><input type='text' name='title'></div>
+                <div><label for='msg'>내용</label><input type='text' name='msg'></div>
+                <div><label for='link'>연결주소</label><input type='text' name='link' value='http://n.mp1.co.kr/'></div>
+                <div><label for='img'>이미지주소</label><input type='text' name='img' value='http://n.mp1.co.kr/uploadfiles/f8d6312fa093c21c1e3e954bdc2d1ac21534740281470.gif'></div>
+                <div><input type='submit' value='전송'></div>
+                </form>
+
+        </div>
+        <div id="section_right"></div>
+    </div>
+    <div id="footer">
+        <div id="copyright">COPYRIGHTⓒ<b><olgamzaNote</b>. ALL RIGHTS RESERVED.
+        </div>
+    </div>
+</div>
+<div id="bottom"></div>
+</body>
+</html>
+
+
+

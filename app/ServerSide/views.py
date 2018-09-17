@@ -5,30 +5,24 @@ from django.views.decorators.csrf import csrf_exempt
 import requests
 import json
 from .models import AlarmMessageKey
+'''
+from google.oauth2 import id_token
+from google.auth.transport import requests
+'''
 
 def Splash(request):
     height = request.GET.get("h")
     return render(request, 'app/ServerSide/Splash.htm', {'height':height,})
 
 def Version(request):
-    lang = request.GET.get("lang")
+    lang = request.GET.get("lang")[:5]
     currentApplicationVersion = 2
-    currentMessageVersion = 7
-    message = "Brilliant VR Asia Information Memorandum..."
-    url = "dolgamza://dolgamzanote.pythonanywhere.com/"
-
-    if lang == 'ko':
-        holidayversion = 2
-    else :
-        holidayversion = 1
+    holidayversion = 1
 
     return render(request, 'app/ServerSide/Version.htm', {
             'lang':lang,
-            'version':currentApplicationVersion,
-            'messageid':currentMessageVersion,
-            'message':message,
-            'url':url,
-            'holidayversion':holidayversion,
+            'applicationVersion':currentApplicationVersion,
+            'holidayVersion':holidayversion,
         }
     )
 
@@ -60,7 +54,7 @@ def SaveFCMKey(request):
         return HttpResponse("Fail...")
 
 def Holiday(request):
-    lang = request.GET.get("lang").capitalize();
+    lang = request.GET.get("lang").capitalize()[:5];
     strFileName = 'app/ServerSide/Holiday' + lang + '.txt'
     return render(request, strFileName,)
 
@@ -92,3 +86,4 @@ def SendFCMMessage(request):
     }
     res = requests.post(url, data=json.dumps(content), headers=headers)
     return HttpResponse(res.text)
+
